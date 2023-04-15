@@ -1,3 +1,1 @@
 # LGBT_sonavara
-
-lol
