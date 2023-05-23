@@ -15,11 +15,8 @@ failid_lilla <- dir(path = kataloog_lilla_agenda, pattern = ".json") #Lilla agen
 #Homokringel
 
 for (f in 1:length(failid_homo)){ #Käin läbi kõik Homokringli failid
-  
   json_file <- scan(paste(kataloog_homo, failid_homo[f], sep = "/"), what = character(), sep = "\n", encoding = "UTF-8") #Loen faili sisse
-
   json_file <- grep("[^_]transcript", json_file, value = T) #Võtan failist vajalikud read
-
   json_file <- gsub("transcript", "",
                   gsub(":", "",
                        gsub("\\\"", "",
@@ -35,19 +32,14 @@ for (f in 1:length(failid_homo)){ #Käin läbi kõik Homokringli failid
                                                                          gsub("\\\\", "", json_file))))))))))))) #Puhastan faili
 
   json_file <- str_trim(json_file, "left") #Eemaldan tühja ruumi
-  
   writeLines(json_file, con = paste("C:/Users/leena/OneDrive/DisneyGames/Documents/馬鹿/podcastid_json/homokringel_json/", "result_homokringel", f, ".txt", sep = ""), sep = "\n") #Teen puhastatud failist tekstifaili ja salvestan homokringli kausta
-  
 }
 
 #Lilla Agenda
 
 for (f in 1:length(failid_lilla)){ #Käin läbi kõik Lilla Agenda failid
-  
   json_file <- scan(paste(kataloog_lilla, failid_lilla[f], sep = "/"), what = character(), sep = "\n", encoding = "UTF-8") #Loen faili sisse
-
   json_file <- grep("[^_]transcript", json_file, value = T) #Võtan failist vajalikud read
-
   json_file <- gsub("transcript", "",
                   gsub(":", "",
                        gsub("\\\"", "",
@@ -63,7 +55,6 @@ for (f in 1:length(failid_lilla)){ #Käin läbi kõik Lilla Agenda failid
                                                                          gsub("\\\\", "", json_file))))))))))))) #Puhastan faili
 
   json_file <- str_trim(json_file, "left") #Eemaldan tühja ruumi
-  
   writeLines(json_file, con = paste("C:/Users/leena/OneDrive/DisneyGames/Documents/馬鹿/podcastid_json/lillaagenda_json/", "result_lilla", f, ".txt", sep = ""), sep = "\n") #Teen puhastatud failist tekstifaili ja salvestan Lilla Agenda kausta
   
 }

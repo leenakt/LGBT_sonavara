@@ -23,24 +23,16 @@ library(quanteda.textstats)
 failid <- dir(path = "./textgrid", pattern = ".TextGrid") #Loen sisse TextGrid failid
 
 for (f in failid) { #Tsükkel failide läbi käimiseks
-
-fail <- TextGrid(paste("./textgrid/", f, sep = ""))
-
-hyp <- list() #Oletuslik korpus
-
-ref <- list() #Referentskorpus
-
-konelejad <- unique(gsub("^(K[0-9]+)[^0-9].*$", "\\1", names(fail))) #Leian kõnelejad
-
-df.all <- data.frame(f = character(), koneleja = character(), k = numeric(), ref = character(), hyp = character()) #Tühi dataframe tulemuste salvestamiseks
-
-for(k in konelejad){
+  fail <- TextGrid(paste("./textgrid/", f, sep = ""))
+  hyp <- list() #Oletuslik korpus
+  ref <- list() #Referentskorpus
+  konelejad <- unique(gsub("^(K[0-9]+)[^0-9].*$", "\\1", names(fail))) #Leian kõnelejad
+  df.all <- data.frame(f = character(), koneleja = character(), k = numeric(), ref = character(), hyp = character()) #Tühi dataframe tulemuste salvestamiseks
+  for(k in konelejad){
     hyp <- append(hyp, fail[[k]]@labels) %>% 
         str_replace_all("[[:punct:]]", "") %>% #Eemaldan kirjavahemärgid
         str_replace_all("(\\s)\\s", " ") %>% #Eemalda topelttühikud
         .[!is.na(.)] #Jätan välja puuduvate väärtustega (NA) read
-    
-    
     ref <- append(ref, fail[[paste0(k, "parandatud")]]@labels) %>%
         str_replace_all(" - Helgi", "") %>% #Eemaldan lisatud kõnelejamärgendid
         str_replace_all(" - Anette", "") %>% 
@@ -65,15 +57,13 @@ for(k in konelejad){
     
     hyp_corpus <- corpus(hyp_data, docid_field = "name", text_field = "text") #Loon oletusliku korpuse
     ref_corpus <- corpus(ref_data, docid_field = "name", text_field = "text") #Loon referentskorpuse
-}
+  }
+  r <- ref_corpus
+  h <- hyp_corpus
+  
+  #Järgnev kood pärineb wersim funktsioonist 
 
-r <- ref_corpus
-
-h <- hyp_corpus
-
-#Järgnev kood pärineb wersim funktsioonist 
-
-if (length(as.character(r)) != length(as.character(h)))
+  if (length(as.character(r)) != length(as.character(h)))
     stop("The refernce and hypothesis corpus should have the same length")
   if (length(as.character(r)) == length(as.character(h))) {
     data.store = data.frame(wer = rep(NA, length(as.character(r))),
@@ -83,21 +73,18 @@ if (length(as.character(r)) != length(as.character(h)))
       sub.count = 0
       ins.count = 0
       del.count = 0
-
       r$id = 1:length(as.character(r))
       ref_text <- r %>%
         corpus_subset(id == k) %>%
         tokens() %>%
         as.character() %>%
         tolower()
-
       h$id = 1:length(as.character(h))
       hyp_text <- h %>%
         corpus_subset(id == k) %>%
         tokens() %>%
         as.character() %>%
         tolower()
-
       if (as.character(h)[k] == "") {
         data.store$wer[k] = 1
         data.store$sub[k] = 0
@@ -160,31 +147,19 @@ if (length(as.character(r)) != length(as.character(h)))
         ih <- 1 #Määran hyp-vooru indeksi algväärtuse
 
         for(i in 1:length(sequence)){ #Tsükkel sõnade läbi käimiseks
-
           if(sequence[i] %in% c("CORRECT", "SUB")){ #Kui sõna on kuidagi tuvastatud
-          df.all <- rbind(df.all, data.frame(f = f, voor = k, ref = ref_text[ir], hyp = hyp_text[ih])) #Lisan tabelisse rea vastava sõnapaariga
-
-          ir <- ir+1 #Suurendan ref- ja hyp-voorude indekseid
-
-          ih <- ih+1
-
+            df.all <- rbind(df.all, data.frame(f = f, voor = k, ref = ref_text[ir], hyp = hyp_text[ih])) #Lisan tabelisse rea vastava sõnapaariga
+            ir <- ir+1 #Suurendan ref- ja hyp-voorude indekseid
+            ih <- ih+1
           } 
-          
           else if(sequence[i] == "DEL"){ #Kui sõna on kõnetuvastuses kustutatud
-
-          df.all <- rbind(df.all, data.frame(f = f, voor = k, ref = ref_text[ir], hyp = "####")) #Lisan tabeli hyp-vooru vasteks ####-järjendi
-
-          ir <- ir+1 #Suurendan ref-vooru indeksit
-
+            df.all <- rbind(df.all, data.frame(f = f, voor = k, ref = ref_text[ir], hyp = "####")) #Lisan tabeli hyp-vooru vasteks ####-järjendi
+            ir <- ir+1 #Suurendan ref-vooru indeksit
           } 
-          
           else if(sequence[i] == "INS"){ #Kui tuvastatud on sõna, mida tegelikult kõnes polnud
-
-          df.all <- rbind(df.all, data.frame(f = f, voor = k, ref = "####", hyp = hyp_text[ih])) #Lisan tabeli ref-vooru vasteks ####-järjendi
-
-          ih <- ih+1 #Suurendan hyp-vooru indeksit
+            df.all <- rbind(df.all, data.frame(f = f, voor = k, ref = "####", hyp = hyp_text[ih])) #Lisan tabeli ref-vooru vasteks ####-järjendi
+            ih <- ih+1 #Suurendan hyp-vooru indeksit
           }
-          
           write.table(df.all, file = paste("./dataframe/", f, "df.txt", sep = "")) #Kirjutan tulemused faili
         }
       }

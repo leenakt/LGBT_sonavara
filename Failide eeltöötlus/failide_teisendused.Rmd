@@ -9,32 +9,19 @@ library(stringr)
 failid <- dir(path = "./textgrid", pattern = ".TextGrid") #Võtan TextGrid failid
 
 for (f in failid) { #Tsükkel failide läbi käimiseks
-  
   dat <- TextGrid(paste("./textgrid/", f, sep = ""))
-  
   cat(iconv(dat$K01@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K01", ".txt", sep = ""), append = F) #Esimene kõneleja tekstifailiks
-
   cat(iconv(dat$K01parandatud@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K01par", ".txt", sep = ""), append = F) #Parandatud esimene kõneleja tekstifailiks
-
   cat(iconv(dat$K02@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K02", ".txt", sep = ""), append = F) #Teine kõneleja tekstifailiks
-
   cat(iconv(dat$K02parandatud@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K02par", ".txt", sep = ""), append = F) #Parandatud teine kõneleja tekstifailiks
-
   cat(iconv(dat$K03@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K03", ".txt", sep = ""), append = F) #Kolmas kõneleja tekstifailiks
-
   cat(iconv(dat$K03parandatud@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K03par", ".txt", sep = ""), append = F) #Parandatud kolmas kõneleja tekstifailiks
-
   if (!is.null(dat$K04)) { #Kui on neljas kõneleja
-
     cat(iconv(dat$K04@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K04", ".txt", sep = ""), append = F) #Neljas kõneleja tekstifailiks
-
     cat(iconv(dat$K04parandatud@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K04par", ".txt", sep = ""), append = F) #Parandatud neljas kõneleja tekstifailiks
   }
-
   if (!is.null(dat$K05)) { #Kui on viies kõneleja
-
     cat(iconv(dat$K05@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K05", ".txt", sep = ""), append = F) #Viies kõneleja tekstifailiks
-
     cat(iconv(dat$K05parandatud@labels, to = "UTF-8"), file = paste("./txt1/", str_sub(f, end = -9L), "K05par", ".txt", sep = ""), append = F) #Parandatud viies kõneleja tekstifailiks
   }
 }
@@ -50,27 +37,16 @@ k <- "" #Tühi sõne muutuja salvestamiseks
 kaust <- "" #Tühi sõne kausta salvestamiseks
 
 for (t in tekstid) {
-  
   kaust <- str_extract(t, "^.*_") #Võtan failinimest kausta nime
-  
   kaust <- str_replace_all(kaust, "(.*)_", "\\1") #Eemaldan kausta nimest alakriipsu
-    
   readLines(con = paste("./txt1/", t, sep = ""), n = -1L, warn = F, encoding = "UTF-8") #Loen teksti sisse
-
   str_split(tekst, "\\.\\s") #Jagan teksti punkti ja tühiku kohalt ridadeks
-  
   capture.output(tekst, file = paste("./", kaust, "/", t, sep = "")) #Kirjutan teksti uuesti faili
-  
   k <- str_extract(t, "K0[:digit:]{1}") #Salvestan kõneleja numbri muutujasse
-  
   readLines(con = paste("./", kaust, "/", t, sep = ""), n = -1L, warn = F) #Avan faili
-  
   str_replace(tekst, "\\[\\[1\\]\\]", "") #Eemaldan esimeselt realt listi indeksi
-    
   str_replace_all(tekst, "\\[[:digit:]{1,3}\\]", paste("[", k, "]", sep = "")) #Asendan listi indeksi kõneleja koodiga
-    
   str_trim(tekst) #Eemaldan teksti algusest üleliigsed tühikud
-    
   cat((iconv(tekst, to = "UTF-8")), file = paste("./", kaust, "/", t, sep = ""), sep = "\n") #Salvestan teksti uuesti faili
 }
 ```
@@ -81,34 +57,21 @@ for (t in tekstid) {
 kaustad <- c("02092021", "05082021", "07072022", "08072021", "09062022", "aceabc", "ajalooeri", "kapistvalja", "marss", "transmbi") #Vektor kaustade nimedega 
 
 for(kaust in kaustad) {
-  
   failid <- dir(path = paste("./", kaust, sep = ""), pattern = ".txt") #Episoodi failid
-  
   salvkaust <- "terved" #Kaust failide salvestamiseks
-    
   parlist <- list() #List parandatud failidele
-    
   eplist <- list() #List originaalfailidele
-  
   for (f in failid) {
-  
-  if (str_detect(f, "par")) { #Parandatud failid
-    
-     readLines(con = paste("./", kaust, "/", f, sep = ""), n = -1L, warn = F, skipNul = T) #Loen teksti sisse
-    
-    parlist <- append(parlist, tekst) #Lisan failid listi
-    
-    capture.output(parlist, file = paste("./", salvkaust, "/", kaust, "_par_terve.txt", sep = "")) #Salvestan väljundi tekstifaili
-  }
-  
-  else { #Parandamata tekstid
-    
-     readLines(con = paste("./", kaust, "/", f, sep = ""), n = -1L, warn = F, skipNul = T) #Loen teksti sisse
-    
-    eplist <- append(eplist, tekst) #Lisan failid listi
-    
-    capture.output(eplist, file = paste("./", salvkaust, "/", kaust, "_ep_terve.txt", sep = "")) #Salvestan väljundi tekstifaili
-  }
+    if (str_detect(f, "par")) { #Parandatud failid
+      readLines(con = paste("./", kaust, "/", f, sep = ""), n = -1L, warn = F, skipNul = T) #Loen teksti sisse
+      parlist <- append(parlist, tekst) #Lisan failid listi
+      capture.output(parlist, file = paste("./", salvkaust, "/", kaust, "_par_terve.txt", sep = "")) #Salvestan väljundi tekstifaili
+    }
+    else { #Parandamata tekstid
+      readLines(con = paste("./", kaust, "/", f, sep = ""), n = -1L, warn = F, skipNul = T) #Loen teksti sisse
+      eplist <- append(eplist, tekst) #Lisan failid listi
+      capture.output(eplist, file = paste("./", salvkaust, "/", kaust, "_ep_terve.txt", sep = "")) #Salvestan väljundi tekstifaili
+    }
   }
 }  
 ```
@@ -119,27 +82,16 @@ for(kaust in kaustad) {
 tekstkokku <- dir(path = "./terved", pattern = ".txt") #Loen sisse failinimed
 
 for (t in tekstkokku) {
-  
-   readLines(con = paste("./terved/", t, sep = ""), n = -1L, warn = F) #Loen teksti sisse
-    
-   str_replace_all(tekst, "\\[\\[[:digit:]{1,3}\\]\\]", "") #Eemaldan esimeselt realt listi indeksi
-    
-   str_replace_all(tekst, "\\[[:digit:]\\]", "") #Eemaldan listi numbrid
-  
-   str_replace_all(tekst, "\\\"", "") #Eemaldan jutumärgid
-  
-   str_replace_all(tekst, "\\\\", "") #Eemaldan kaldkriipsud
-  
-   str_replace_all(tekst, "NA", "") #Eemaldan NA väärtused
-  
-   str_replace_all(tekst, "\\s\\s", " ") #Eemaldan eelmise sammuga tekkinud topelttühikud
-  
-   tyhi <- str_detect(tekst, "^\\s*$") #Eemaldan tühjad read
-  
-   tekst[!tyhi]
-  
-   paste(tekst, collapse = "\n")
-    
+  readLines(con = paste("./terved/", t, sep = ""), n = -1L, warn = F) #Loen teksti sisse
+  str_replace_all(tekst, "\\[\\[[:digit:]{1,3}\\]\\]", "") #Eemaldan esimeselt realt listi indeksi
+  str_replace_all(tekst, "\\[[:digit:]\\]", "") #Eemaldan listi numbrid
+  str_replace_all(tekst, "\\\"", "") #Eemaldan jutumärgid
+  str_replace_all(tekst, "\\\\", "") #Eemaldan kaldkriipsud
+  str_replace_all(tekst, "NA", "") #Eemaldan NA väärtused
+  str_replace_all(tekst, "\\s\\s", " ") #Eemaldan eelmise sammuga tekkinud topelttühikud
+  tyhi <- str_detect(tekst, "^\\s*$") #Eemaldan tühjad read
+  tekst[!tyhi]
+  paste(tekst, collapse = "\n")
   cat(tekst, file = paste("./terved/", t, sep = ""), sep = "\n") #Salvestan teksti uuesti faili
 }
 ```
