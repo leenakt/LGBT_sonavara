@@ -1,0 +1,41 @@
+```{r}
+#Trigrammid
+#Kasutatud muutujad on pärit sagedusloendi koostamise koodist
+
+lgbt_trigramm <- c() #Vektor trigrammide salvestamiseks
+
+trigramm <- tokens_ngrams(lemma_toks, n = 3) #Üldine trigrammide loend
+
+for (i in 1:31) { #Tsükkel failide läbi käimiseks
+  for (el in trigramm[[i]]) { #Tsükkel trigrammide läbi käimiseks
+    for (sona in sonad) { #Kasutan eelnevat LGBT+ sõnade loendit
+      if (str_detect(el, sona)) {
+        lgbt_trigramm <- c(lgbt_trigramm, el) #Salvestan trigrammid vektorisse
+      }
+    }
+  }
+}
+
+trigramm_sagedused <- data.frame(table(lgbt_trigramm)) #LGBT+ trigrammide dataframe
+
+for (i in 1:8) {
+  for (rida in 1:nrow(trigramm_sagedused)) {
+    for (sona in valja) {
+      if(is.na(trigramm_sagedused[rida,1])) {
+        trigramm_sagedused = trigramm_sagedused[-rida,]
+      } #Kontrollin NA väärtusi
+      else if (str_detect(trigramm_sagedused[rida,1], sona)) {
+        trigramm_sagedused <- trigramm_sagedused[-rida,] #Eemaldan valepositiivsed trigrammid
+      }
+    }
+  }
+}
+
+colnames(trigramm_sagedused) <- c("Trigramm", "Sagedus") #Tulpade nimed
+
+rownames(trigramm_sagedused) <- 1:nrow(trigramm_sagedused) #Reanimed
+
+trigramm_sagedused[,1] <- str_replace_all(trigramm_sagedused[,1], "_", " ") #Eemaldan sõnade vahelt alakriipsud
+
+write.csv(trigramm_sagedused, "trigramm.csv", fileEncoding = "UTF-8") #Salvestan trigrammide loendi CSV faili
+```

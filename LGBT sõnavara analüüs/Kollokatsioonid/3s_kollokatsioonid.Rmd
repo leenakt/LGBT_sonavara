@@ -1,0 +1,37 @@
+```{r}
+#Kolmesõnalised kollokatsioonid
+
+kollok3 <- tokens_select(lemma_toks) %>% 
+                  textstat_collocations(size = 3) #Üldised kollokatsioonid
+
+lgbt_kollok3 <- data.frame(matrix(nrow = 0, ncol = 6)) #Dataframe LGBT+ kollokatsioonidele
+
+colnames(lgbt_kollok3) <- colnames(kollok3)
+
+for (rida in 1:nrow(kollok3)) {
+  for (sona in sonad) {
+    if (str_detect(kollok3[rida,1], sona)) {
+      lgbt_kollok3[nrow(lgbt_kollok3) + 1,] = kollok3[rida,] #Salvestan LGBT+ kollokatsioonid dataframe'i
+    }
+  }
+}
+
+lgbt_kollok3 <- distinct(lgbt_kollok3) #Eemaldan kordused
+
+for (i in 1:3) {
+  for (rida in 1:nrow(lgbt_kollok3)) {
+    for (sona in valja) {
+      if(is.na(lgbt_kollok3[rida,1])) {
+        lgbt_kollok3 = lgbt_kollok3[-rida,]
+      } #Kontrollin NA väärtusi
+      else if (str_detect(lgbt_kollok3[rida,1], sona)) {
+        lgbt_kollok3 <- lgbt_kollok3[-rida,] #Eemaldan valepositiivsed kollokatsioonid
+      }
+    }
+  }
+}
+
+rownames(lgbt_kollok3) <- 1:nrow(lgbt_kollok3) #Reanimed
+
+write.csv(lgbt_kollok3, "kollok3.csv", fileEncoding = "UTF-8") #Salvestan kollokatsioonid CSV faili
+```

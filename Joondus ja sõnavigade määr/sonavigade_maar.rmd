@@ -1,0 +1,82 @@
+
+```{r}
+install.packages("remotes") #Laen vajalikud paketid
+remotes::install_github("jenswaeckerle/wersim")
+library(tidyverse)
+library(textgRid)
+library(wersim)
+library(quanteda)
+library(stringr)
+```
+
+
+```{r}
+#Sõnavigade määra leidmine
+
+failid <- dir(path = "./textgrid", pattern = ".TextGrid") #Võtan textgrid failid
+
+werdf <- data.frame(fail = character(), 
+                    koneleja = character(), 
+                    voor = numeric(), 
+                    wer = numeric(), 
+                    sub = numeric(), 
+                    ins = numeric(), 
+                    del = numeric(),
+                    words.ref = numeric(),
+                    words.hyp = numeric()) #Dataframe WER-i andmete jaoks
+
+for (f in failid) { #Tsükkel kõigi failide läbi käimiseks
+
+dat <- TextGrid(paste("./textgrid/", f, sep = ""))
+
+konelejad <- unique(gsub("^(K[0-9]+)[^0-9].*$", "\\1", names(dat))) #Salvestan kõnelejad
+
+for(k in konelejad){
+    hyp <- dat[[k]]@labels %>% 
+        gsub("[[:punct:]]", "", .) %>% #Eemaldan kõik kirjavahemärgid
+        .[!is.na(.)] #Jätan välja NA-dega read
+    
+    ref <- dat[[paste0(k, "parandatud")]]@labels %>%
+        str_replace_all(" - Helgi", "") %>% 
+        str_replace_all(" - Anette", "") %>% 
+        str_replace_all(" - Krõõt", "") %>% 
+        str_replace_all(" - Mel", "") %>% 
+        str_replace_all(" - Paul", "") %>% 
+        str_replace_all(" - Emma", "") %>% 
+        str_replace_all(" - Eva Marta", "") %>% 
+        str_replace_all(" - Ann", "") %>% 
+        str_replace_all(" - Barbara", "") %>% 
+        str_replace_all(" - Sara", "") %>% 
+        str_replace_all(" - Rene", "") %>% 
+        str_replace_all(" - Mia", "") %>% 
+        str_replace_all(" - Sebastian", "") %>% 
+        str_replace_all(" - Nika", "") %>% #Eemaldan kõnelejate märgendid
+        str_replace_all("[[:punct:]]", "") %>% #Eemaldan kõik kirjavahemärgid
+        str_replace_all("(\\s)\\s", " ") %>% #Eemaldan topelttühikud
+        .[!is.na(.)] #Jätan välja NA-dega read
+    
+    hyp_data <- data.frame(text = hyp, name = paste0("doc", 1:length(hyp)))
+    ref_data <- data.frame(text = ref, name = paste0("doc", 1:length(ref)))
+    
+    hyp_corpus <- corpus(hyp_data, docid_field = "name", text_field = "text") #Oletuslik korpus
+    ref_corpus <- corpus(ref_data, docid_field = "name", text_field = "text") #Referentskorpus
+    
+    tmpwer <- wer(r = ref_corpus, h = hyp_corpus) #Ajutine WER muutuja
+    werdf <- rbind(werdf, cbind(fail = f, koneleja = k, voor = 1:nrow(tmpwer), tmpwer)) #Lisan andmed WER-i dataframe'i
+}
+}
+
+mean(werdf$wer) #Kahe taskuhäälingu keskmine WER
+
+homokringel <- werdf[1:1399,] #Homokringli subset
+
+lillaagenda <- werdf[1400:2277,] #Lilla agenda subset
+
+mean(homokringel$wer) #Homokringli keskmine WER
+
+mean(lillaagenda$wer) #Lilla agenda keskmine WER
+```
+
+
+
+

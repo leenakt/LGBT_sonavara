@@ -1,0 +1,38 @@
+```{r}
+#Kahesõnalised kollokatsioonid
+#Kasutatud muutujad on pärit sagedusloendi koostamise koodist
+
+kollok2 <- tokens_select(lemma_toks) %>% 
+                  textstat_collocations(size = 2) #Üldised kahesõnalised kollokatsioonid
+
+lgbt_kollok2 <- data.frame(matrix(nrow = 0, ncol = 6)) #Dataframe LGBT+ kollokatsioonide jaoks
+
+colnames(lgbt_kollok2) <- colnames(kollok2)
+
+for (rida in 1:nrow(kollok2)) { #Tsükkel kollokatsioonide läbikäimiseks
+  for (sona in sonad) { #LGBT+ sõnaloend
+    if (str_detect(kollok2[rida,1], sona)) {
+      lgbt_kollok2[nrow(lgbt_kollok2) + 1,] = kollok2[rida,] #Salvestan LGBT+ kollokatsioonid dataframe'i
+    }
+  }
+}
+
+lgbt_kollok2 <- distinct(lgbt_kollok2) #Eemaldan kordused
+
+for (i in 1:2) {
+  for (rida in 1:nrow(lgbt_kollok2)) {
+    for (sona in valja) {
+      if(is.na(lgbt_kollok2[rida,1])) {
+        lgbt_kollok2 = lgbt_kollok2[-rida,]
+      } #Kontrollin NA väärtusi
+      else if (str_detect(lgbt_kollok2[rida,1], sona)) {
+        lgbt_kollok2 <- lgbt_kollok2[-rida,] #Eemaldan valepositiivsed kollokatsioonid
+      }
+    }
+  }
+}
+
+rownames(lgbt_kollok2) <- 1:nrow(lgbt_kollok2) #Reanimed
+
+write.csv(lgbt_kollok2, "kollok2.csv", fileEncoding = "UTF-8") #Salvestan kollokatsioonid CSV faili
+```

@@ -1,0 +1,72 @@
+
+```{r}
+# JSON formaadis failide tekstifailideks teisendamine
+
+library(stringr) #Laen stringr paketi
+
+kataloog_homokringel <- "C:/Users/leena/OneDrive/DisneyGames/Documents/馬鹿/podcastid_json/homokringel_json" #Homokringli failide kataloog
+
+kataloog_lilla_agenda <- "C:/Users/leena/OneDrive/DisneyGames/Documents/馬鹿/podcastid_json/lillaagenda_json" #Lilla agenda failide kataloog
+
+failid_homo <- dir(path = kataloog_homokringel, pattern = ".json") #Homokringli failid
+
+failid_lilla <- dir(path = kataloog_lilla_agenda, pattern = ".json") #Lilla agenda failid
+
+#Homokringel
+
+for (f in 1:length(failid_homo)){ #Käin läbi kõik Homokringli failid
+  
+  json_file <- scan(paste(kataloog_homo, failid_homo[f], sep = "/"), what = character(), sep = "\n", encoding = "UTF-8") #Loen faili sisse
+
+  json_file <- grep("[^_]transcript", json_file, value = T) #Võtan failist vajalikud read
+
+  json_file <- gsub("transcript", "",
+                  gsub(":", "",
+                       gsub("\\\"", "",
+                            gsub(",$", "",
+                                 gsub("u00fc", "ü",
+                                      gsub("u00e4", "ä",
+                                           gsub("u00f5", "õ",
+                                                gsub("u00f6", "ö",
+                                                     gsub("u00dc", "Ü",
+                                                          gsub("u00c4", "Ä",
+                                                               gsub("u00d5", "Õ",
+                                                                    gsub("u00d6", "Ö",
+                                                                         gsub("\\\\", "", json_file))))))))))))) #Puhastan faili
+
+  json_file <- str_trim(json_file, "left") #Eemaldan tühja ruumi
+  
+  writeLines(json_file, con = paste("C:/Users/leena/OneDrive/DisneyGames/Documents/馬鹿/podcastid_json/homokringel_json/", "result_homokringel", f, ".txt", sep = ""), sep = "\n") #Teen puhastatud failist tekstifaili ja salvestan homokringli kausta
+  
+}
+
+#Lilla Agenda
+
+for (f in 1:length(failid_lilla)){ #Käin läbi kõik Lilla Agenda failid
+  
+  json_file <- scan(paste(kataloog_lilla, failid_lilla[f], sep = "/"), what = character(), sep = "\n", encoding = "UTF-8") #Loen faili sisse
+
+  json_file <- grep("[^_]transcript", json_file, value = T) #Võtan failist vajalikud read
+
+  json_file <- gsub("transcript", "",
+                  gsub(":", "",
+                       gsub("\\\"", "",
+                            gsub(",$", "",
+                                 gsub("u00fc", "ü",
+                                      gsub("u00e4", "ä",
+                                           gsub("u00f5", "õ",
+                                                gsub("u00f6", "ö",
+                                                     gsub("u00dc", "Ü",
+                                                          gsub("u00c4", "Ä",
+                                                               gsub("u00d5", "Õ",
+                                                                    gsub("u00d6", "Ö",
+                                                                         gsub("\\\\", "", json_file))))))))))))) #Puhastan faili
+
+  json_file <- str_trim(json_file, "left") #Eemaldan tühja ruumi
+  
+  writeLines(json_file, con = paste("C:/Users/leena/OneDrive/DisneyGames/Documents/馬鹿/podcastid_json/lillaagenda_json/", "result_lilla", f, ".txt", sep = ""), sep = "\n") #Teen puhastatud failist tekstifaili ja salvestan Lilla Agenda kausta
+  
+}
+                  
+```
+

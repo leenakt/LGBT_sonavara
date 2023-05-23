@@ -1,0 +1,78 @@
+
+```{r}
+#Laen vajalikud paketid
+
+library(stringr)
+
+library(quanteda)
+
+library(readtext)
+
+library(quanteda.textstats)
+
+library(dplyr)
+
+require(quanteda.corpora)
+
+library(data.table)
+```
+
+
+```{r}
+#Üldine sagedussõnastik
+
+tekstid <- tolower(readtext("./morfanaluus", encoding = "UTF-8")) #Loen failid morfanalüüsi kaustast
+
+lgbtkorpus <- corpus(tekstid) #Loon tekstidest korpuse
+
+docvars(lgbtkorpus, "nimi") <- names(lgbtkorpus)
+
+lgbtkorpus_lemma <- corpus_subset(lgbtkorpus, str_detect(nimi, "_lemma")) #Loon lemmadest alamkorpuse
+
+lemma_toks <- tokens(lgbtkorpus_lemma) #Loon lemmadest tokens objekti
+
+toks_dfm <- dfm(lemma_toks)
+
+sagedused <- textstat_frequency(toks_dfm) #Loon lemmade sagedusloendi
+
+```
+
+```{r}
+#LGBT+ sõnavara sagedused
+
+sonad <- scan("sonalist.txt", what = "", sep = " ") #Loen sisse LGBT+ sõnade loendi
+
+lgbt_sagedused <- data.frame(matrix(nrow = 0, ncol = 5)) #Tühi dataframe LGBT+ sõnasageduste salvestamiseks
+
+colnames(lgbt_sagedused) <- colnames(sagedused)
+
+for (rida in 1:nrow(sagedused)) { #Tsükkel sagedusloendi läbi käimiseks
+  for (sona in sonad) {
+    if (str_detect(sagedused[rida,1], sona)) {
+      lgbt_sagedused[nrow(lgbt_sagedused) + 1,] = sagedused[rida,] #Salvestan LGBT+ sõnad loendisse
+    }
+  }
+}
+
+lgbt_sagedused <- distinct(lgbt_sagedused) #Eemaldan sõnakordused
+
+parandused <- scan("sonadvalja.txt", what = "", sep = " ") #Loen sisse eemaldatavate sõnade loendi
+
+for(i in 1:2) {
+  for (rida in 1:nrow(lgbt_sagedused)) { #Tsükkel LGBT+ sagedusloendi läbi käimiseks
+    for (sona in parandused) {
+      if(is.na(lgbt_sagedused[rida,1])) {
+        lgbt_sagedused = lgbt_sagedused[-rida,]
+      } #Kontrollin NA väärtusi
+      else if(lgbt_sagedused[rida,1] == sona) {
+        lgbt_sagedused = lgbt_sagedused[-rida,] #Kustutan LGBT+ sagedusloendist valepositiivsed tulemused
+      }
+    }
+  }
+}
+
+rownames(lgbt_sagedused) <- 1:nrow(lgbt_sagedused) #Reanimed
+
+write.csv(lgbt_sagedused, "sagedused.csv", fileEncoding = "UTF-8") #Salvestan sagedusloendi CSV failina
+
+```

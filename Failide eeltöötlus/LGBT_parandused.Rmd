@@ -1,0 +1,144 @@
+
+```{r}
+#LGBT+ sõnavara vigade parandamine
+
+failid_parandamata <- dir(path = "./parandamata", pattern = ".txt") #Loen sisse parandamata failide nimed
+
+for (f in failid_parandamata){ #Tsükkel failide läbi käimiseks
+  
+  tekst <- readLines(con = paste("./parandamata/", f, sep = ""), encoding = "UTF-8") #Avan faili
+  
+  tekst <- tolower(tekst)
+
+  tekst <- str_replace_all(tekst, "\\s(trag|traag|rak|dra|trääg|trak|trää|rääg|tra|treek|räd|traäk|rag|drak)\\s", " drag ") #Asendan regulaaravaldiste abil vigased vormid õigetega
+
+  tekst <- str_replace_all(tekst, "\\s(lgbd|lgbt|elge|eel|lbt|elgebte|selgevette|elgevete|lg\\set|selgepete|elgepetja|elgebette|jelgabete|bt|elbt|elgebete|elgibete|helgevette|elkemet|jälgib\\set|jälgibette|jälge|selgeette|selge\\set|selgib\\set|helgemate|le|jälgib|jälgi)\\spluss\\s", " lgbt+ ")
+
+  tekst <- str_replace_all(tekst, "\\s(pi|pii)\\s", " bi ")
+
+  tekst <- str_replace_all(tekst, "\\s(elgebette|elgepea|lgebete|elgebeta|jälge\\sete|elkõver|elgevete|eelkab\\set|elkvt|elgevet|elgerdi|lkt|lgbde|lt|helgebet|elgebet|gebet|elgebete|elgab|lgb\\str|elgbete|lgbte|labe|lgbete|helgepette|ele|elgbt)\\s", " lgbt ")
+
+  tekst <- str_replace_all(tekst, "\\skäär|kvar\\s", " kväär ") 
+
+  tekst <- str_replace_all(tekst, "\\s(käär|kvar)(id.*)\\s", " kväär\\2 ") 
+
+  tekst <- str_replace_all(tekst, "(tarnatiiv|heteronormalatiiv)(.*)\\s", " heteronormatiiv\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(tracking|trancking|traking)(.*)\\s", " drag king\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(vikerkõr|vikerkaja|mikerkar)(.*)\\s", " vikerkaar\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(quer|quir|quire|koir|kuer)(.*)\\s", " queer\\2 ") 
+
+  tekst <- str_replace_all(tekst, "\\s(hetega|hedra|hedro)(.*)\\s", " hetero\\2 ") 
+
+  tekst <- str_replace_all(tekst, "\\s(|kei|käi)\\s", " gei ")
+
+  tekst <- str_replace_all(tekst, "\\sstrate\\s", " straight ")
+
+  tekst <- str_replace_all(tekst, "\\s(lespen|lespin)(.*)\\s", " lesbian\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\ssiset(.*)\\s", " cishet\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\stransfob(.*)\\s", " transfoob\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\stransagucation(.*)\\s", " trans education\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\s(top)\\sser(.*)\\s", " \\1 surgery\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(mitte\\spinaar|mitte\\sbinaar|mitte\\sminaar|vinor|mibinaar)(.*)\\s", " mittebinaar\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(.*)dusfoori(.*)\\s", " \\1düsfoori\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(top)\\sserc(.*)\\s", " \\1 surgery\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(pryht|preid|prid|raid|bray|fraid|prad|reid|praide|elektriid|brad|brait)(.*)\\s", " pride\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(dragrase|drageri|dragras|dragris|dragracse)(.*)\\s", " drag race\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(heitgraim|heitgramm|heitei)(.*)\\s", " hate crime\\2 ")
+  
+  tekst <- str_replace_all(tekst, "\\srakultuur(.*)\\s", " dragkultuur\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\s(jendr|jander|jender)(.*)\\s", " gender\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(draqueen|trakueen|drakueen|rakun)(.*)\\s", " drag queen\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(ga|ke|gey)\\s", " gay ")
+
+  tekst <- str_replace_all(tekst, "\\sdragerist(.*)\\s", " drag artist\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\strans\\sforb(.*)\\s", " transfoob\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\stransission(.*)\\s", " transition\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\s(stopet|ston\\swall|stonall|stonmul|stonwall|stone\\swall)(.*)\\s", " stonewall\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\smo\\s", " homo ")
+
+  tekst <- str_replace_all(tekst, "\\spifoob(.*)\\s", " bifoob\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\s(lspilii|esi\\slii|espilii)(t|d)(.*)\\s", " lesbilii\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\sthes\\s", " theys ")
+
+  tekst <- str_replace_all(tekst, "\\s(tran|ron)\\s", " trans ")
+
+  tekst <- str_replace_all(tekst, "\\s(homohoob|homo\\sfoob)(.*)\\s", " homofoob\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(.*)sectual(.*)\\s", " \\1sexual\\2 ")
+  
+  tekst <- str_replace_all(tekst, "\\ssiss\\s", " cis ")
+
+  tekst <- str_replace_all(tekst, "\\s(aseksiaal|a\\sseksuaal|aseks\\saal)(.*)\\s", " aseksuaal\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(exrepost|sex\\srepoulst|saxrepoulstet|sex\\srepolst)\\s", " sex repulsed ")
+
+  tekst <- str_replace_all(tekst, "\\ssex\\snewtro\\s", " sex neutral ")
+
+  tekst <- str_replace_all(tekst, "\\saloseksuaal(.*)\\s", " alloseksuaal\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\ssex\\sfaverb\\s", " sex favorable ")
+
+  tekst <- str_replace_all(tekst, "\\saa\\sromanti(.*)\\s", " aromanti\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\sgra\\sse\\s", " gray ace ")
+
+  tekst <- str_replace_all(tekst, "\\spiisaks\\saal(.*)\\s", " biseksuaal\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\skaminaut\\s", " coming out ")
+
+  tekst <- str_replace_all(tekst, "\\sjibi\\sa\\s", " lgbtqia ")
+
+  tekst <- str_replace_all(tekst, "\\smoseksuaal(.*)\\s", " homoseksuaal\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\salli\\s", " ally ")
+
+  tekst <- str_replace_all(tekst, "\\sonbineri\\s", " nonbinary ")
+
+  tekst <- str_replace_all(tekst, "\\sprone\\souts\\s", " pronouns ")
+
+  tekst <- str_replace_all(tekst, "\\s(transvestet|transestet|transistiit|transvestit)(.*)\\s", " transvestiit\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\s(cross)\\stresser(.*)\\s", " \\1 dresser\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\staninim(.*)\\s", " trans inim\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\s(transsule|transsoorili|transa|transoli|tansooli|transsoli|transsoolli|transfors|transor)(.*)\\s", " transsooli\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\ssiss(s?)ooli(.*)\\s", " cissooli\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\s(transorus|transalisus|transpordisus)(.*)\\s", " transsoolisus\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\spon\\sseksuaal(.*)\\s", " panseksuaal\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\sandroküün(.*)\\s", " androgüün\\1 ")
+
+  tekst <- str_replace_all(tekst, "\\s(sisseinime|sissinime)(.*)\\s", " cisinime\\2 ")
+
+  tekst <- str_replace_all(tekst, "\\sded\\snaim(.*)\\s", " deadname\\1 ")
+  
+  cat(tekst, file = paste("./parandamata_par/", f, sep = ""), sep = "\n") #Salvestan parandatud faili
+}
+
+```

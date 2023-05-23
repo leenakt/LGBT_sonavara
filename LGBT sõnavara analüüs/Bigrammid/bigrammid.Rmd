@@ -1,0 +1,43 @@
+```{r}
+#Bigrammid
+#Kasutatud muutujad on pärit sagedusloendi koostamise koodist
+
+lgbt_bigramm = c() #Vektor bigrammide salvestamiseks
+
+bigramm <- tokens_ngrams(lemma_toks, n = 2) #Üldine bigrammide loend
+
+for (i in 1:31) { #Tsükkel failide läbi käimiseks
+  for (el in bigramm[[i]]) { #Tsükkel bigrammide läbi käimiseks
+    for (sona in sonad) { #Kasutan eelnevat LGBT+ sõnade loendit
+      if (str_detect(el, sona)) {
+      lgbt_bigramm <- c(lgbt_bigramm, el) #Salvestan LGBT+ bigrammid vektorisse
+      }
+    }
+  }
+}
+
+bigramm_sagedused <- data.frame(table(lgbt_bigramm)) #LGBT+ bigrammide dataframe
+
+valja <- scan("välja_bi.txt", what = "", sep = " ") #Loen sisse eemaldatavate bigrammide loendi
+
+for(i in 1:8) {
+  for (rida in 1:nrow(bigramm_sagedused)) {
+    for (sona in valja) {
+      if(is.na(bigramm_sagedused[rida,1])) {
+        bigramm_sagedused = bigramm_sagedused[-rida,]
+      } #Kontrollin NA väärtusi
+      else if (str_detect(bigramm_sagedused[rida,1], sona)) {
+        bigramm_sagedused <- bigramm_sagedused[-rida,] #Eemaldan valepositiivsed bigrammid
+      }
+    }
+  }
+}
+
+colnames(bigramm_sagedused) <- c("Bigramm", "Sagedus") #Tulpade nimed
+
+rownames(bigramm_sagedused) <- 1:nrow(bigramm_sagedused) #Reanimed
+
+bigramm_sagedused[,1] <- str_replace_all(bigramm_sagedused[,1], "_", " ") #Eemaldan sõnade vahelt alakriipsud
+
+write.csv(bigramm_sagedused, "bigramm.csv", fileEncoding = "UTF-8") #Salvestan bigrammide loendi CSV failina
+```

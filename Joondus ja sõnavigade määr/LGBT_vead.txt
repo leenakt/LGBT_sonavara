@@ -1,0 +1,73 @@
+#drag	trag|traag|rak|dra|trääg|trak|trää|rääg|tra|treek|räd|traäk|rag|drak|ääg
+#lgbt+	elge pluss|eel pluss|lbt pluss|elgebte pluss|selgevette pluss|elgevete pluss|lg et pluss|selgepete pluss|elgepetja pluss|elgebette pluss|jelgabete pluss|bt pluss|elbt pluss|elgebete pluss|elgibete pluss|helgevette pluss|elkemet pluss|jälgib et pluss|jälgib ette pluss|jälgib pluss|selge ette pluss|selge et pluss|selgib et pluss
+#bi	pii|*by|*abi|pi
+#lgbt	elgepea|elgebette|lgebete|elgebeta|jälge ete|elkõver|elgevete|eelkab et|elkvt|elgevet|*helget|elgerdi|*ega te|lkt|*selgete|lgbde|*eelkõige|lt|*ega|*selgelt|*helgelt|helgebet|elgebet|gebet|elgebete|elgab|lgb tr|elgbete|lgbte|labe|lgbete|helgepette|ele|elgbt
+#kväär	*väär|käär|kvar|var
+#heteronormatiivse	tarnatiivse|heteronormalatiivse
+#drag king	tracking|trancking|traking
+#queer	quer|*kui|quir|*que|quire|keer|*kuur|koir|kuer
+#hetero	hetega|hedra|hedro|*häda
+#gei	*keegi|*key|kei|käi|*kee
+#straight	*sheet|*strate|
+#lesbian	les|lespen|lespin
+#cishet	siset
+#transfoob	transfob
+#trans education	transagucation
+#top surgery	top serchie
+trans	*ran|*prants
+masc	*mask
+transfoobide	*transformatsioonide
+#mittebinaarne	mitte pinaarne|*pinaarne|mitte binaarne|mitte minaarne|vinorne|mibinaarne
+#soodüsfooriat	soodusfooriat
+#pride	prit|pryht|brid|preid|prid|*braid|*bride|*bridge|raid|bri|*brit|*briti|bray|fraid|praed|frid|*bright|prad|reid|praide
+kvääristö	*värista
+#drag race	dragrase|drageri|dragras|dragris|dragracse
+#hatecrime	heitgraim|heitgramm|heitei
+#dragkultuur	rakultuur
+#gender	jendr|jander|jender
+#drag queen	draqueen|trakueen|drakueen|rakun
+#gay	ga|ke|gey
+#transfoobseid	trans forbsid
+#transition	transission
+#stonewall	stopet|ston wall|stonall|stonmul|stonwall|stone wall
+#homo	*oma|mo
+#homondus	*omadus
+#bifoobne	pifoobne
+#lesbiliit	lspiliit|esi liit|espiliit
+#theys	thes
+#trans	tran|ron
+#homofoobid	homohoobi|homo foobid
+#heterosexuality	heterosectuality
+#cis	*siis|siss
+#vikerkaar	vikerkõr|vikerkaja|mikerkar
+#aseksuaalsus	*seksuaalses|*seksuaalsus|aseksiaalsus|a seksuaalsus|aseks aalsus
+#sex repulsed	exrepost|sex repoulst|saxrepoulstet|sex repolst
+#sex neutral	sex newtro
+#alloseksuaalne	aloseksuaalne
+#sex favorable	sex faverb
+#aromantiline	aa romantiline|*romantiline
+mikrolabelid	*mikrolaineahju
+#gray ace	gra se
+äss	*ass
+#biseksuaal	piisaks aal
+#asexual	esectual
+#coming out	kaminaut
+#lgbtqia	jibi a
+ace	*ees|*ase
+#homoseksuaalne	moseksuaalne
+#ally	alli|*alla
+#nonbinary	onbineri
+they	*the 
+#pronouns	prone outs
+#transvestiit	transvestet|transestet|transistiit|transvestit
+#cross dresser	cross tresser
+#trans inimesed	taninimesed
+#transsooline	transsule|*transpordi|transsooriline|*transformatsioone|transa|transolin|tansooline|transsoline|transsoolline|transfors|transor
+#cissooline	sissooline|*sisuline
+transsooliste	*transpordist
+#transsoolisuse	transorus|transalisuse|transpordisuse
+#panseksuaalsus	pon seksuaalsus
+#androgüünsema	androküünsema
+#cisinimene	sisseinimene|sissinimene
+#deadname	ded naim
+they/them	*teate
