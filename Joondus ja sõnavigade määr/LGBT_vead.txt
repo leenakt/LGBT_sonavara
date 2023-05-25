@@ -8,7 +8,7 @@
 #queer	quer|*kui|quir|*que|quire|keer|*kuur|koir|kuer
 #hetero	hetega|hedra|hedro|*häda
 #gei	*keegi|*key|kei|käi|*kee
-#straight	*sheet|*strate|
+#straight	*sheet|*strate
 #lesbian	les|lespen|lespin
 #cishet	siset
 #transfoob	transfob
@@ -19,7 +19,7 @@ masc	*mask
 transfoobide	*transformatsioonide
 #mittebinaarne	mitte pinaarne|*pinaarne|mitte binaarne|mitte minaarne|vinorne|mibinaarne
 #soodüsfooriat	soodusfooriat
-#pride	prit|pryht|brid|preid|prid|*braid|*bride|*bridge|raid|bri|*brit|*briti|bray|fraid|praed|frid|*bright|prad|reid|praide
+#pride	prit|pryht|brid|preid|prid|*braid|*bride|*bridge|raid|*bri|*brit|*briti|bray|fraid|praed|frid|*bright|prad|reid|praide
 kvääristö	*värista
 #drag race	dragrase|drageri|dragras|dragris|dragracse
 #hatecrime	heitgraim|heitgramm|heitei
