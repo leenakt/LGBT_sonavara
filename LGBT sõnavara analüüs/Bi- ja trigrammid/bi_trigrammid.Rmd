@@ -18,7 +18,7 @@ for (i in 1:31) { #Tsükkel failide läbi käimiseks
 
 bigramm_sagedused <- data.frame(table(lgbt_bigramm)) #LGBT+ bigrammide dataframe
 
-valja <- scan("välja_bi.txt", what = "", sep = " ") #Loen sisse eemaldatavate bigrammide loendi
+valja <- scan("välja_mitm.txt", what = "", sep = " ") #Loen sisse eemaldatavate bigrammide loendi
 
 for(i in 1:8) {
   for (rida in 1:nrow(bigramm_sagedused)) {
